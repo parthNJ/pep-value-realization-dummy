@@ -12,7 +12,6 @@ export function PortfolioPage() {
       <DashboardHeader
         title="Portfolio Performance Dashboard"
         subtitle="Executive Review · FY2024 · Total NOPBT Benefit KPI"
-        activeTab="Portfolio"
       />
 
       <main className="mx-auto max-w-7xl space-y-6 px-6 py-6">

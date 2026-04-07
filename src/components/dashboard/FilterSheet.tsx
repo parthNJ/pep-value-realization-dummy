@@ -85,9 +85,9 @@ export function FilterSheet({
                 </label>
                 <Select
                   value={draft[key]}
-                  onValueChange={(val: string) =>
-                    setDraft((prev) => ({ ...prev, [key]: val }))
-                  }
+                  onValueChange={(val) => {
+                    if (val) setDraft((prev) => ({ ...prev, [key]: val }));
+                  }}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue />

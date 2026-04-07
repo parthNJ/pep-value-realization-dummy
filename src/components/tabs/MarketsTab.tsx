@@ -68,7 +68,7 @@ export function MarketsTab({ programs }: { programs: Program[] }) {
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e5e7eb" />
                 <XAxis type="number" tick={{ fontSize: 10 }} tickFormatter={(v: number) => `${v > 0 ? "+" : ""}${v}`} />
                 <YAxis type="category" dataKey="name" width={130} tick={{ fontSize: 10 }} />
-                <Tooltip formatter={(v: number) => [`${v > 0 ? "+" : ""}${v.toFixed(1)}M`, "B/(W)"]} />
+                <Tooltip formatter={(v) => [`${Number(v) > 0 ? "+" : ""}${Number(v).toFixed(1)}M`, "B/(W)"]} />
                 <Bar dataKey="bw" radius={[0, 4, 4, 0]}>
                   {rows.map((r, i) => (
                     <Cell key={i} fill={r.bw >= 0 ? "#16a34a" : "#dc2626"} />

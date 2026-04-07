@@ -129,41 +129,49 @@ export function Dashboard() {
       setFilters((f) => ({ ...f, markets: [name] }));
       setTab("Markets");
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  const hasActiveFilters = filters.portfolios.length > 0 || filters.regions.length > 0 || filters.markets.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader title="S&T Enabled Financial Overview" subtitle={subtitle} />
 
+      {/* Sticky filter sub-navbar */}
+      <div className={cn(
+        "sticky top-0 z-20 border-b transition-colors",
+        hasActiveFilters ? "bg-blue-50/80 backdrop-blur-sm" : "bg-white/80 backdrop-blur-sm",
+      )}>
+        <div className="mx-auto max-w-7xl px-6 py-2">
+          <GlobalFilters
+            filters={filters}
+            onChange={setFilters}
+            portfolioOptions={portfolioOptions}
+            regionOptions={regionOptions}
+            marketOptions={marketOptions}
+          />
+        </div>
+      </div>
+
       <main className="mx-auto max-w-7xl space-y-5 px-6 py-6">
-        {/* Tabs + Filters on same row */}
+        {/* Tabs */}
         <div className="border-b">
-          <div className="flex items-end justify-between gap-4">
-            <div className="flex gap-1">
-              {tabs.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTab(t)}
-                  className={cn(
-                    "relative px-4 pb-2.5 pt-1 text-sm font-medium transition-colors",
-                    tab === t
-                      ? "text-foreground after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:rounded-full after:bg-foreground"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
-            <div className="pb-1.5">
-              <GlobalFilters
-                filters={filters}
-                onChange={setFilters}
-                portfolioOptions={portfolioOptions}
-                regionOptions={regionOptions}
-                marketOptions={marketOptions}
-              />
-            </div>
+          <div className="flex gap-1">
+            {tabs.map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={cn(
+                  "relative px-4 pb-2.5 pt-1 text-sm font-medium transition-colors",
+                  tab === t
+                    ? "text-foreground after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:rounded-full after:bg-foreground"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {t}
+              </button>
+            ))}
           </div>
         </div>
 

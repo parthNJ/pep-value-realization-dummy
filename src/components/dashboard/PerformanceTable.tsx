@@ -56,7 +56,7 @@ interface PerformanceTableProps {
 export function PerformanceTable({ portfolios, regions, markets, onRowClick }: PerformanceTableProps) {
   const [view, setView] = useState<View>("Portfolio");
   const [sort, setSort] = useState<SortMode>("alpha");
-  const [metric, setMetric] = useState(metrics[0]);
+  const [metric, setMetric] = useState<string>(metrics[0]);
 
   const raw = view === "Portfolio" ? portfolios : view === "Region" ? regions : markets;
 

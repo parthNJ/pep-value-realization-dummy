@@ -81,7 +81,6 @@ export function ProgramsPage() {
       <DashboardHeader
         title={buildHeaderTitle(filters)}
         subtitle={`${filtered.length} programs · FY2024 · Total NOPBT Benefit KPI`}
-        activeTab="Programs"
       />
 
       <main className="mx-auto max-w-7xl space-y-6 px-6 py-6">

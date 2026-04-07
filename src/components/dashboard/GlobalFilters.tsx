@@ -135,15 +135,15 @@ export function GlobalFilters({
   };
 
   return (
-    <div className="space-y-2">
-      <div className="flex flex-wrap items-center gap-2">
+    <div className="flex items-center justify-between gap-4">
+      <div className="flex shrink-0 items-center gap-2">
         <MultiSelect label="Portfolio" options={portfolioOptions} selected={filters.portfolios}
           onChange={(v) => onChange({ ...filters, portfolios: v })} />
         <MultiSelect label="Region" options={regionOptions} selected={filters.regions}
           onChange={(v) => onChange({ ...filters, regions: v })} />
         <MultiSelect label="Market" options={marketOptions} selected={filters.markets}
           onChange={(v) => onChange({ ...filters, markets: v })} />
-        <Select value={filters.year} onValueChange={(v: string) => onChange({ ...filters, year: v })}>
+        <Select value={filters.year} onValueChange={(v) => { if (v) onChange({ ...filters, year: v }); }}>
           <SelectTrigger size="sm" className="w-[90px]">
             <SelectValue />
           </SelectTrigger>
@@ -155,7 +155,7 @@ export function GlobalFilters({
         </Select>
       </div>
       {hasFilters && (
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 overflow-hidden">
           <Button
             variant="outline"
             size="xs"
@@ -165,9 +165,9 @@ export function GlobalFilters({
             Clear all
           </Button>
           {visiblePills.map(({ key, val }) => (
-            <Badge key={`${key}-${val}`} variant="secondary" className="shrink-0 gap-1 pl-2 pr-1">
+            <Badge key={`${key}-${val}`} variant="outline" className="shrink-0 gap-1 rounded-md bg-white pl-2 pr-1">
               <span className="text-xs text-muted-foreground">{keyLabel[key]}:</span>
-              <span className="text-xs">{val}</span>
+              <span className="text-xs font-medium">{val}</span>
               <button
                 onClick={() => removePill(key, val)}
                 className="ml-0.5 rounded-full p-0.5 hover:bg-muted" aria-label={`Remove ${val}`}
