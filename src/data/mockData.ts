@@ -147,27 +147,27 @@ export function getFinancialSnapshot(filters: FilterState): FinancialPanel[] {
 }
 
 export const portfolios: Portfolio[] = [
-  { name: "Capabilities", ytd: { actFcst: 19.9, target: 13.1, bw: 6.8, status: "green" }, fy: { actFcst: 42.1, target: 33.8, bw: 8.3, status: "green" } },
-  { name: "Commercial", ytd: { actFcst: 183.6, target: 111.3, bw: 72.3, status: "green" }, fy: { actFcst: 183.6, target: 111.3, bw: 72.3, status: "green" } },
-  { name: "Consumer", ytd: { actFcst: 34.2, target: 36.6, bw: -2.4, status: "amber" }, fy: { actFcst: 34.2, target: 36.6, bw: -2.4, status: "amber" } },
-  { name: "Control", ytd: { actFcst: 28.4, target: 25.3, bw: 3.1, status: "green" }, fy: { actFcst: 58.7, target: 53.5, bw: 5.2, status: "green" } },
-  { name: "Finance", ytd: { actFcst: 51.3, target: 46.7, bw: 4.6, status: "green" }, fy: { actFcst: 108.9, target: 101.8, bw: 7.1, status: "green" } },
-  { name: "Global Functions", ytd: { actFcst: 43.1, target: 42.1, bw: 1.0, status: "green" }, fy: { actFcst: 43.1, target: 42.1, bw: 1.0, status: "green" } },
-  { name: "IBP", ytd: { actFcst: 69.3, target: 60.4, bw: 8.9, status: "green" }, fy: { actFcst: 69.3, target: 60.4, bw: 8.9, status: "green" } },
-  { name: "Others", ytd: { actFcst: 14.7, target: 15.5, bw: -0.8, status: "amber" }, fy: { actFcst: 31.2, target: 32.7, bw: -1.5, status: "amber" } },
-  { name: "People Experience & Ops", ytd: { actFcst: 22.8, target: 20.7, bw: 2.1, status: "green" }, fy: { actFcst: 47.6, target: 43.7, bw: 3.9, status: "green" } },
-  { name: "Supply Chain", ytd: { actFcst: 734.9, target: 638.7, bw: 96.2, status: "green" }, fy: { actFcst: 734.9, target: 638.7, bw: 96.2, status: "green" } },
-  { name: "Tech Foundation", ytd: { actFcst: 38.5, target: 35.1, bw: 3.4, status: "green" }, fy: { actFcst: 82.1, target: 76.1, bw: 6.0, status: "green" } },
-  { name: "VR Whitespace", ytd: { actFcst: 12.6, target: 13.9, bw: -1.3, status: "amber" }, fy: { actFcst: 26.4, target: 29.2, bw: -2.8, status: "amber" } },
+  { name: "Capabilities", ytd: { actFcst: 18.4, target: 12.2, bw: 6.2, status: "green" }, fy: { actFcst: 38.8, target: 31.2, bw: 7.6, status: "green" } },
+  { name: "Commercial", ytd: { actFcst: 169.8, target: 103.0, bw: 66.8, status: "green" }, fy: { actFcst: 169.8, target: 103.0, bw: 66.8, status: "green" } },
+  { name: "Consumer", ytd: { actFcst: 31.6, target: 33.8, bw: -2.2, status: "amber" }, fy: { actFcst: 31.6, target: 33.8, bw: -2.2, status: "amber" } },
+  { name: "Control", ytd: { actFcst: 26.2, target: 23.4, bw: 2.8, status: "green" }, fy: { actFcst: 54.2, target: 49.4, bw: 4.8, status: "green" } },
+  { name: "Finance", ytd: { actFcst: 47.4, target: 43.2, bw: 4.2, status: "green" }, fy: { actFcst: 100.6, target: 94.0, bw: 6.6, status: "green" } },
+  { name: "Global Functions", ytd: { actFcst: 39.8, target: 38.8, bw: 1.0, status: "green" }, fy: { actFcst: 39.8, target: 38.8, bw: 1.0, status: "green" } },
+  { name: "IBP", ytd: { actFcst: 64.0, target: 55.8, bw: 8.2, status: "green" }, fy: { actFcst: 64.0, target: 55.8, bw: 8.2, status: "green" } },
+  { name: "Others", ytd: { actFcst: 13.6, target: 14.4, bw: -0.8, status: "amber" }, fy: { actFcst: 28.8, target: 30.2, bw: -1.4, status: "amber" } },
+  { name: "People Experience & Ops", ytd: { actFcst: 21.0, target: 19.2, bw: 1.8, status: "green" }, fy: { actFcst: 44.0, target: 40.4, bw: 3.6, status: "green" } },
+  { name: "Supply Chain", ytd: { actFcst: 679.4, target: 590.4, bw: 89.0, status: "green" }, fy: { actFcst: 679.4, target: 590.4, bw: 89.0, status: "green" } },
+  { name: "Tech Foundation", ytd: { actFcst: 35.6, target: 32.4, bw: 3.2, status: "green" }, fy: { actFcst: 75.8, target: 70.2, bw: 5.6, status: "green" } },
+  { name: "VR Whitespace", ytd: { actFcst: 11.6, target: 12.8, bw: -1.2, status: "amber" }, fy: { actFcst: 24.4, target: 27.0, bw: -2.6, status: "amber" } },
 ];
 
 export const regions: Portfolio[] = [
-  { name: "APAC", ytd: { actFcst: 189.4, target: 178.2, bw: 11.2, status: "green" }, fy: { actFcst: 402.8, target: 385.0, bw: 17.8, status: "green" } },
-  { name: "Corporate", ytd: { actFcst: 68.4, target: 62.2, bw: 6.2, status: "green" }, fy: { actFcst: 145.6, target: 132.4, bw: 13.2, status: "green" } },
-  { name: "EMEA", ytd: { actFcst: 214.7, target: 232.5, bw: -17.8, status: "red" }, fy: { actFcst: 458.3, target: 490.1, bw: -31.8, status: "red" } },
-  { name: "International Beverages", ytd: { actFcst: 11.4, target: 12.6, bw: -1.2, status: "amber" }, fy: { actFcst: 24.2, target: 26.8, bw: -2.6, status: "amber" } },
-  { name: "LAFN", ytd: { actFcst: 52.1, target: 49.8, bw: 2.3, status: "green" }, fy: { actFcst: 110.8, target: 106.0, bw: 4.8, status: "green" } },
-  { name: "North America", ytd: { actFcst: 562.4, target: 518.6, bw: 43.8, status: "green" }, fy: { actFcst: 1196.8, target: 1103.4, bw: 93.4, status: "green" } },
+  { name: "APAC", ytd: { actFcst: 175.0, target: 164.8, bw: 10.2, status: "green" }, fy: { actFcst: 372.4, target: 356.2, bw: 16.2, status: "green" } },
+  { name: "Corporate", ytd: { actFcst: 63.2, target: 57.4, bw: 5.8, status: "green" }, fy: { actFcst: 134.6, target: 122.4, bw: 12.2, status: "green" } },
+  { name: "EMEA", ytd: { actFcst: 198.4, target: 215.0, bw: -16.6, status: "red" }, fy: { actFcst: 422.6, target: 453.2, bw: -30.6, status: "red" } },
+  { name: "International Beverages", ytd: { actFcst: 10.4, target: 11.6, bw: -1.2, status: "amber" }, fy: { actFcst: 22.2, target: 24.6, bw: -2.4, status: "amber" } },
+  { name: "LAFN", ytd: { actFcst: 48.2, target: 46.0, bw: 2.2, status: "green" }, fy: { actFcst: 102.4, target: 98.0, bw: 4.4, status: "green" } },
+  { name: "North America", ytd: { actFcst: 520.2, target: 479.6, bw: 40.6, status: "green" }, fy: { actFcst: 1107.2, target: 1020.8, bw: 86.4, status: "green" } },
 ];
 
 export const markets: Portfolio[] = [

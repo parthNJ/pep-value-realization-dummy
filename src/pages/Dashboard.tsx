@@ -59,10 +59,10 @@ export function Dashboard() {
 
     // Base values from screenshot (all programs, both YTD and FY are same)
     const base = [
-      { label: "Net Revenue ($MM)", actFcst: 375.4, target: 318.0 },
-      { label: "Contribution Margin ($MM)", actFcst: 184.6, target: 150.2 },
-      { label: "Productivity ($MM)", actFcst: 913.0, target: 763.5 },
-      { label: "Total NOPBT Benefit ($MM)", actFcst: 1097.6, target: 913.7 },
+      { label: "Net Revenue ($MM)", actFcst: 347.2, target: 294.6 },
+      { label: "Contribution Margin ($MM)", actFcst: 170.8, target: 139.0 },
+      { label: "Productivity ($MM)", actFcst: 844.6, target: 706.2 },
+      { label: "Total NOPBT Benefit ($MM)", actFcst: 1015.4, target: 845.8 },
     ];
 
     const makeMetrics = (periodScale: number) =>

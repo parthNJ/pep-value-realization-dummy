@@ -61,24 +61,24 @@ export const portfolioInsights: Insight[] = [
     label: "Momentum Signals",
     status: "green",
     bullets: [
-      "Supply Chain and Commercial account for $165.6M of favorable variance — both outperforming at scale.",
-      "Forecast AI emerging as a Tier 1 program with strong digital-led value creation potential.",
+      "Supply Chain and Commercial together drive the majority of favorable variance — both outperforming at scale.",
+      "Agri Intelligence emerging as a Tier 1 capability with strong digital-led value creation potential.",
     ],
   },
   {
     label: "Action Required",
     status: "red",
     bullets: [
-      "Consumer portfolio is the single at-risk portfolio with –$10.6M variance.",
-      "Program-level root cause review recommended within Consumer and Supply Chain's Route Optimization.",
+      "Consumer portfolio is the primary at-risk portfolio with negative variance.",
+      "Program-level root cause review recommended within Consumer and Supply Chain's Route Planning.",
     ],
   },
   {
     label: "Strategic Outlook",
     status: "green",
     bullets: [
-      "5 of 6 portfolios above target with $1.1B in total benefit.",
-      "Leadership should prioritize protecting Supply Chain funding and accelerating Forecast AI adoption.",
+      "Majority of portfolios above target with strong total benefit.",
+      "Leadership should prioritize protecting Supply Chain funding and accelerating digital capabilities.",
     ],
   },
 ];
@@ -88,16 +88,16 @@ export const regionInsights: Insight[] = [
     label: "Regional Strength",
     status: "green",
     bullets: [
-      "North America drives 51% of total benefit — anchored by Design To Value and Network Optimization.",
-      "APAC showing consistent growth across Smart Warehouse and Predictive Maintenance programs.",
+      "North America drives over half of total benefit — anchored by Value Engineering and Network Redesign.",
+      "APAC showing consistent growth across Intelligent Warehouse and Predictive Equipment Care.",
     ],
   },
   {
     label: "Risk Zones",
     status: "red",
     bullets: [
-      "EMEA underperforming with –$17.8M YTD variance — Russia programs are the primary drag.",
-      "International Beverages trending slightly negative — monitor South Africa and Saudi Arabia delivery.",
+      "EMEA underperforming with significant negative YTD variance — Eastern Europe programs are the primary drag.",
+      "International Beverages trending slightly negative — monitor delivery in key markets.",
     ],
   },
   {
@@ -105,7 +105,7 @@ export const regionInsights: Insight[] = [
     status: "amber",
     bullets: [
       "LAFN and APAC have capacity for incremental investment given favorable variance trends.",
-      "Consider shifting EMEA resources from Russia-exposed programs to Central Europe and UKI.",
+      "Consider shifting EMEA resources from underperforming programs to Central Europe and UKI.",
     ],
   },
 ];
@@ -115,15 +115,15 @@ export const marketInsights: Insight[] = [
     label: "Market Leaders",
     status: "green",
     bullets: [
-      "United States ($555.6M YTD) and PBUS ($312.8M) are the dominant value creators.",
-      "Greater China and Brazil showing strong execution with positive variance across all programs.",
+      "United States and PBUS are the dominant value creators by a wide margin.",
+      "Greater China and Brazil showing strong execution with positive variance across programs.",
     ],
   },
   {
     label: "Markets Under Pressure",
     status: "red",
     bullets: [
-      "Russia (–$4.5M) and France (–$2.6M) are the largest negative contributors in EMEA.",
+      "Russia and France are the largest negative contributors in EMEA.",
       "Turkey and Egypt trending below target — structural challenges may require program restructuring.",
     ],
   },
@@ -132,7 +132,7 @@ export const marketInsights: Insight[] = [
     status: "amber",
     bullets: [
       "India and Indonesia represent untapped scale — current programs are small but growing strongly.",
-      "Mexico is steady but flat — consider expanding Inbound Automation and Transportation programs.",
+      "Mexico is steady but flat — consider expanding logistics and freight programs.",
     ],
   },
 ];

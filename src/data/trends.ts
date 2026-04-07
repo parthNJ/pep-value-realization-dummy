@@ -4,18 +4,18 @@ export interface TrendPoint {
   target: number;
 }
 
-// Monthly NOPBT benefit trajectory — FY2024
+// Monthly NOPBT benefit trajectory — FY2024 (dummy)
 export const nopbtTrend: TrendPoint[] = [
-  { month: "Jan", actual: 82.4, target: 78.6 },
-  { month: "Feb", actual: 168.2, target: 162.4 },
-  { month: "Mar", actual: 261.8, target: 248.2 },
-  { month: "Apr", actual: 348.6, target: 336.8 },
-  { month: "May", actual: 442.1, target: 428.4 },
-  { month: "Jun", actual: 538.4, target: 524.6 },
-  { month: "Jul", actual: 648.2, target: 618.2 },
-  { month: "Aug", actual: 752.6, target: 714.8 },
-  { month: "Sep", actual: 868.4, target: 812.4 },
-  { month: "Oct", actual: 962.8, target: 876.2 },
-  { month: "Nov", actual: 1034.2, target: 898.6 },
-  { month: "Dec", actual: 1097.6, target: 913.7 },
+  { month: "Jan", actual: 76.2, target: 72.8 },
+  { month: "Feb", actual: 155.4, target: 150.2 },
+  { month: "Mar", actual: 242.0, target: 229.6 },
+  { month: "Apr", actual: 322.4, target: 311.4 },
+  { month: "May", actual: 408.6, target: 396.2 },
+  { month: "Jun", actual: 497.8, target: 485.0 },
+  { month: "Jul", actual: 599.4, target: 571.8 },
+  { month: "Aug", actual: 695.8, target: 661.2 },
+  { month: "Sep", actual: 803.2, target: 751.4 },
+  { month: "Oct", actual: 890.6, target: 810.4 },
+  { month: "Nov", actual: 956.8, target: 831.2 },
+  { month: "Dec", actual: 1015.4, target: 845.8 },
 ];
