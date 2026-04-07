@@ -31,7 +31,7 @@ export function ExecutiveOverview() {
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader
-        title="Welcome, Parth 👋"
+        title="Welcome, User 👋"
         subtitle="Here's your S&T financial overview for today"
       />
 
@@ -39,7 +39,7 @@ export function ExecutiveOverview() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-semibold">
-              S&T Enabled Financial Overview
+              S&T Enabled Financial Overview (Dummy)
             </h2>
             <p className="text-xs text-muted-foreground">
               Showing: {filterSummary}

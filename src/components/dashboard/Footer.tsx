@@ -10,9 +10,9 @@ const links = [
 export function Footer() {
   return (
     <footer className="mt-16 border-t bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
         <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <img src={logo} alt="PepsiCo" className="h-16 w-auto" />
+          <img src={logo} alt="Logo" className="h-12 w-auto sm:h-16" />
           <nav className="flex flex-wrap gap-x-6 gap-y-2">
             {links.map((l) => (
               <a

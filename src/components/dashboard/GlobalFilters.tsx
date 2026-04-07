@@ -135,8 +135,8 @@ export function GlobalFilters({
   };
 
   return (
-    <div className="flex items-center justify-between gap-4">
-      <div className="flex shrink-0 items-center gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+      <div className="flex flex-wrap items-center gap-2">
         <MultiSelect label="Portfolio" options={portfolioOptions} selected={filters.portfolios}
           onChange={(v) => onChange({ ...filters, portfolios: v })} />
         <MultiSelect label="Region" options={regionOptions} selected={filters.regions}

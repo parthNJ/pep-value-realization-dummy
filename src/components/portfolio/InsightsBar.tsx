@@ -33,11 +33,11 @@ export function InsightsBar({ portfolios }: InsightsBarProps) {
   ];
 
   return (
-    <div className="flex overflow-hidden rounded-lg bg-[#1e293b]">
+    <div className="grid grid-cols-1 overflow-hidden rounded-lg bg-[#1e293b] sm:grid-cols-2 lg:grid-cols-4">
       {insights.map((item, i) => (
         <div
           key={item.title}
-          className={`flex-1 px-5 py-4 ${i > 0 ? "border-l border-white/10" : ""}`}
+          className={`px-5 py-4 ${i > 0 ? "border-t border-white/10 sm:border-t-0 sm:border-l" : ""}`}
         >
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
             {item.title}

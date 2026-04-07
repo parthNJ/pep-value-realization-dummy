@@ -30,11 +30,11 @@ export function AIInsights({ insights }: AIInsightsProps) {
         </span>
       </button>
       {open && (
-        <div className="grid border-t lg:grid-cols-3">
+        <div className="grid border-t grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {insights.map((insight, i) => (
             <div
               key={insight.label}
-              className={`px-5 py-4 ${i > 0 ? "lg:border-l" : ""}`}
+              className={`px-5 py-4 ${i > 0 ? "border-t sm:border-t-0 sm:border-l" : ""}`}
             >
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 {insight.label}

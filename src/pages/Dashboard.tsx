@@ -136,14 +136,14 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader title="S&T Enabled Financial Overview" subtitle={subtitle} />
+      <DashboardHeader title="S&T Enabled Financial Overview (Dummy Data)" subtitle={subtitle} />
 
       {/* Sticky filter sub-navbar */}
       <div className={cn(
         "sticky top-0 z-20 border-b transition-colors",
         hasActiveFilters ? "bg-blue-50/80 backdrop-blur-sm" : "bg-white/80 backdrop-blur-sm",
       )}>
-        <div className="mx-auto max-w-7xl px-6 py-2">
+        <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6">
           <GlobalFilters
             filters={filters}
             onChange={setFilters}
@@ -154,16 +154,16 @@ export function Dashboard() {
         </div>
       </div>
 
-      <main className="mx-auto max-w-7xl space-y-5 px-6 py-6">
-        {/* Tabs */}
+      <main className="mx-auto max-w-7xl space-y-5 px-4 py-4 sm:px-6 sm:py-6">
+        {/* Tabs — horizontally scrollable on mobile */}
         <div className="border-b">
-          <div className="flex gap-1">
+          <div className="-mx-4 flex gap-1 overflow-x-auto px-4 sm:mx-0 sm:px-0">
             {tabs.map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
                 className={cn(
-                  "relative px-4 pb-2.5 pt-1 text-sm font-medium transition-colors",
+                  "relative shrink-0 px-4 pb-2.5 pt-1 text-sm font-medium transition-colors whitespace-nowrap",
                   tab === t
                     ? "text-foreground after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:rounded-full after:bg-foreground"
                     : "text-muted-foreground hover:text-foreground",
