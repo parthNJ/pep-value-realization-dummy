@@ -1,225 +1,131 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
-} from "@/components/ui/select";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import {
-  Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription,
-} from "@/components/ui/dialog";
-import { X, ChevronDown, Check, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Dropdown, Tag } from "@pepsico-ds/ui";
+import type { DropdownItem } from "@pepsico-ds/ui";
 
 export interface GlobalFilterState {
-  portfolios: string[];
   regions: string[];
   markets: string[];
+  portfolios: string[];
+  timeframe: string;
   year: string;
 }
 
 export const defaultGlobalFilters: GlobalFilterState = {
-  portfolios: [],
   regions: [],
   markets: [],
-  year: "2024",
+  portfolios: [],
+  timeframe: "P9 YTD",
+  year: "2025",
 };
 
-interface MultiSelectProps {
-  label: string;
-  options: string[];
-  selected: string[];
-  onChange: (selected: string[]) => void;
+function toDropdownItems(options: string[]): DropdownItem[] {
+  return options.map((o) => ({ id: o, displayText: o }));
+}
+function fromDropdownItems(items: DropdownItem[] | undefined): string[] {
+  return items?.map((i) => i.displayText) ?? [];
+}
+function selectedItems(options: string[], selected: string[]): DropdownItem[] {
+  return options.filter((o) => selected.includes(o)).map((o) => ({ id: o, displayText: o }));
 }
 
-function MultiSelect({ label, options, selected, onChange }: MultiSelectProps) {
-  const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState("");
-  const filtered = search
-    ? options.filter((o) => o.toLowerCase().includes(search.toLowerCase()))
-    : options;
+const timeframeOptions = ["P1 YTD","P2 YTD","P3 YTD","P4 YTD","P5 YTD","P6 YTD","P7 YTD","P8 YTD","P9 YTD","P10 YTD","P11 YTD","P12 YTD"];
+const yearOptions = ["2023", "2024", "2025", "2026"];
 
-  const toggle = (val: string) => {
-    onChange(selected.includes(val) ? selected.filter((s) => s !== val) : [...selected, val]);
-  };
+const COL_W = "140px";
+const INPUT_H = "36px";
 
-  return (
-    <Popover open={open} onOpenChange={(v) => { setOpen(v); if (!v) setSearch(""); }}>
-      <PopoverTrigger
-        render={
-          <Button variant="outline" size="sm" className="gap-1.5">
-            {label}
-            {selected.length > 0 && (
-              <Badge variant="default" className="ml-1 size-5 justify-center rounded-full px-0 text-[10px]">
-                {selected.length}
-              </Badge>
-            )}
-            <ChevronDown className="size-3.5 text-muted-foreground" />
-          </Button>
-        }
-      />
-      <PopoverContent align="start" className="w-56 p-0">
-        <div className="flex items-center gap-2 border-b px-2 py-1.5">
-          <Search className="size-3.5 text-muted-foreground" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder={`Search ${label.toLowerCase()}...`}
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-          />
-        </div>
-        <div className="max-h-52 overflow-y-auto p-1">
-          {filtered.length === 0 && (
-            <p className="px-2 py-3 text-center text-xs text-muted-foreground">No results</p>
-          )}
-          {filtered.map((opt) => {
-            const isSelected = selected.includes(opt);
-            return (
-              <button
-                key={opt}
-                onClick={() => toggle(opt)}
-                className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent"
-              >
-                <span className={cn(
-                  "flex size-4 shrink-0 items-center justify-center rounded border",
-                  isSelected ? "border-primary bg-primary text-primary-foreground" : "border-input",
-                )}>
-                  {isSelected && <Check className="size-3" />}
-                </span>
-                <span className="truncate">{opt}</span>
-              </button>
-            );
-          })}
-        </div>
-        {selected.length > 0 && (
-          <div className="border-t p-1">
-            <button onClick={() => onChange([])} className="w-full rounded-md px-2 py-1.5 text-xs text-muted-foreground hover:bg-accent">
-              Clear {label.toLowerCase()}
-            </button>
-          </div>
-        )}
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-const keyLabel: Record<string, string> = {
-  portfolios: "Portfolio",
-  regions: "Region",
-  markets: "Market",
+const selectStyle: React.CSSProperties = {
+  height: INPUT_H,
+  padding: "0 10px",
+  fontSize: "13px",
+  border: "1px solid #d1d5db",
+  borderRadius: "4px",
+  background: "#fff",
+  color: "#111827",
+  cursor: "pointer",
+  outline: "none",
+  width: "100%",
+  boxSizing: "border-box",
 };
+const labelStyle: React.CSSProperties = {
+  fontSize: "12px", fontWeight: 500, color: "#374151", marginBottom: "4px", display: "block",
+};
+const MAX_CHIPS = 7;
 
 interface GlobalFiltersProps {
   filters: GlobalFilterState;
   onChange: (f: GlobalFilterState) => void;
-  portfolioOptions: string[];
   regionOptions: string[];
   marketOptions: string[];
+  portfolioOptions: string[];
 }
 
-export function GlobalFilters({
-  filters, onChange, portfolioOptions, regionOptions, marketOptions,
-}: GlobalFiltersProps) {
-  const pills = [
-    ...filters.portfolios.map((v) => ({ key: "portfolios" as const, val: v })),
-    ...filters.regions.map((v) => ({ key: "regions" as const, val: v })),
-    ...filters.markets.map((v) => ({ key: "markets" as const, val: v })),
+export function GlobalFilters({ filters, onChange, regionOptions, marketOptions, portfolioOptions }: GlobalFiltersProps) {
+  const allChips: { key: "regions" | "markets" | "portfolios"; label: string; val: string }[] = [
+    ...filters.regions.map((v) => ({ key: "regions" as const, label: "Region", val: v })),
+    ...filters.markets.map((v) => ({ key: "markets" as const, label: "Market", val: v })),
+    ...filters.portfolios.map((v) => ({ key: "portfolios" as const, label: "Portfolio", val: v })),
   ];
-  const hasFilters = pills.length > 0;
-  const MAX_PILLS = 2;
-  const visiblePills = pills.slice(0, MAX_PILLS);
-  const hiddenCount = pills.length - MAX_PILLS;
 
-  const removePill = (key: "portfolios" | "regions" | "markets", val: string) => {
+  const visibleChips = allChips.slice(0, MAX_CHIPS);
+  const overflowCount = allChips.length - MAX_CHIPS;
+
+  const removeChip = (key: "regions" | "markets" | "portfolios", val: string) => {
     onChange({ ...filters, [key]: filters[key].filter((s) => s !== val) });
   };
 
+  const clearAll = () => onChange({ ...filters, regions: [], markets: [], portfolios: [] });
+
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <MultiSelect label="Portfolio" options={portfolioOptions} selected={filters.portfolios}
-          onChange={(v) => onChange({ ...filters, portfolios: v })} />
-        <MultiSelect label="Region" options={regionOptions} selected={filters.regions}
-          onChange={(v) => onChange({ ...filters, regions: v })} />
-        <MultiSelect label="Market" options={marketOptions} selected={filters.markets}
-          onChange={(v) => onChange({ ...filters, markets: v })} />
-        <Select value={filters.year} onValueChange={(v) => { if (v) onChange({ ...filters, year: v }); }}>
-          <SelectTrigger size="sm" className="w-[90px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {["2023", "2024", "2025", "2026"].map((y) => (
-              <SelectItem key={y} value={y}>FY{y}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <div style={{ display: "flex", gap: "12px", alignItems: "flex-end" }}>
+        <div className="filter-dropdown-sm" style={{ width: COL_W, minWidth: 0 }}>
+          <Dropdown label="Region" placeholder="All Regions"
+            childList={toDropdownItems(regionOptions)}
+            selectedValue={selectedItems(regionOptions, filters.regions)}
+            setSelectedValue={(val) => onChange({ ...filters, regions: fromDropdownItems(val) })}
+            selection="multiple" size="small" showFooter isClearable showLabelIcon={false} usePortal />
+        </div>
+        <div className="filter-dropdown-sm" style={{ width: COL_W, minWidth: 0 }}>
+          <Dropdown label="Market" placeholder="All Markets"
+            childList={toDropdownItems(marketOptions)}
+            selectedValue={selectedItems(marketOptions, filters.markets)}
+            setSelectedValue={(val) => onChange({ ...filters, markets: fromDropdownItems(val) })}
+            selection="multiple" size="small" showFooter isClearable showLabelIcon={false} usePortal />
+        </div>
+        <div className="filter-dropdown-sm" style={{ width: COL_W, minWidth: 0 }}>
+          <Dropdown label="Portfolio" placeholder="All Portfolios"
+            childList={toDropdownItems(portfolioOptions)}
+            selectedValue={selectedItems(portfolioOptions, filters.portfolios)}
+            setSelectedValue={(val) => onChange({ ...filters, portfolios: fromDropdownItems(val) })}
+            selection="multiple" size="small" showFooter isClearable showLabelIcon={false} usePortal />
+        </div>
+        <div style={{ width: COL_W, minWidth: 0 }}>
+          <label style={labelStyle}>Timeframe</label>
+          <select value={filters.timeframe} onChange={(e) => onChange({ ...filters, timeframe: e.target.value })} style={selectStyle}>
+            {timeframeOptions.map((t) => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </div>
+        <div style={{ width: COL_W, minWidth: 0 }}>
+          <label style={labelStyle}>Year</label>
+          <select value={filters.year} onChange={(e) => onChange({ ...filters, year: e.target.value })} style={selectStyle}>
+            {yearOptions.map((y) => <option key={y} value={y}>{y}</option>)}
+          </select>
+        </div>
       </div>
-      {hasFilters && (
-        <div className="flex items-center gap-1.5 overflow-hidden">
-          <Button
-            variant="outline"
-            size="xs"
-            onClick={() => onChange(defaultGlobalFilters)}
-            className="shrink-0 text-xs text-muted-foreground"
-          >
-            Clear all
-          </Button>
-          {visiblePills.map(({ key, val }) => (
-            <Badge key={`${key}-${val}`} variant="outline" className="shrink-0 gap-1 rounded-md bg-white pl-2 pr-1">
-              <span className="text-xs text-muted-foreground">{keyLabel[key]}:</span>
-              <span className="text-xs font-medium">{val}</span>
-              <button
-                onClick={() => removePill(key, val)}
-                className="ml-0.5 rounded-full p-0.5 hover:bg-muted" aria-label={`Remove ${val}`}
-              >
-                <X className="size-3" />
-              </button>
-            </Badge>
+
+      {allChips.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
+          {visibleChips.map(({ key, label, val }) => (
+            <Tag key={`${key}-${val}`} text={`${label}: ${val}`} size="small" isRemovable isCopyable={false} onRemove={() => removeChip(key, val)} />
           ))}
-          {hiddenCount > 0 && (
-            <Dialog>
-              <DialogTrigger
-                render={
-                  <button className="shrink-0 text-xs font-medium text-muted-foreground hover:text-foreground">
-                    +{hiddenCount} more
-                  </button>
-                }
-              />
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Active Filters ({pills.length})</DialogTitle>
-                  <DialogDescription>All currently applied filters</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-3 py-2">
-                  {(["portfolios", "regions", "markets"] as const).map((key) => {
-                    const items = filters[key];
-                    if (items.length === 0) return null;
-                    return (
-                      <div key={key}>
-                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                          {keyLabel[key]} ({items.length})
-                        </p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {items.map((val) => (
-                            <Badge key={val} variant="secondary" className="gap-1 pl-2 pr-1">
-                              <span className="text-xs">{val}</span>
-                              <button
-                                onClick={() => removePill(key, val)}
-                                className="ml-0.5 rounded-full p-0.5 hover:bg-muted"
-                                aria-label={`Remove ${val}`}
-                              >
-                                <X className="size-3" />
-                              </button>
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </DialogContent>
-            </Dialog>
+          {overflowCount > 0 && (
+            <span style={{ fontSize: "12px", fontWeight: 500, color: "#3855B3", cursor: "default" }}>
+              +{overflowCount} more
+            </span>
           )}
+          <button onClick={clearAll} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "11px", color: "#6b7280", padding: "2px 6px", marginLeft: "4px" }}>
+            Clear all
+          </button>
         </div>
       )}
     </div>

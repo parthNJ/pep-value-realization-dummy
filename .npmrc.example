@@ -1,0 +1,5 @@
+# Copy this to your user-level ~/.npmrc and replace YOUR_AUTH_TOKEN with your Artifactory token.
+# Do NOT put your token in the project .npmrc file.
+
+always-auth=true
+//myartifactory.mypepsico.com/artifactory/api/npm/globaldesignsystem-npm-prod-local/:_authToken=YOUR_AUTH_TOKEN

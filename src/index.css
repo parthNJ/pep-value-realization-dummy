@@ -7,7 +7,7 @@
 
 @theme inline {
     --font-heading: var(--font-sans);
-    --font-sans: 'Inter Variable', sans-serif;
+    --font-sans: 'Inter', 'Inter Variable', sans-serif;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -127,4 +127,59 @@
   html {
     @apply font-sans;
     }
+}
+
+/* Force pepsico-ds dropdowns to respect parent width and height */
+.filter-dropdown-sm {
+  max-width: 100%;
+}
+.filter-dropdown-sm > div,
+.filter-dropdown-sm [class*="dropdown"],
+.filter-dropdown-sm [class*="Dropdown"],
+.filter-dropdown-sm input {
+  max-width: 100% !important;
+  min-width: 0 !important;
+  width: 100% !important;
+}
+.filter-dropdown-sm [class*="input-container"],
+.filter-dropdown-sm [class*="InputContainer"],
+.filter-dropdown-sm [class*="inputContainer"],
+.filter-dropdown-sm [class*="dropdown-input"],
+.filter-dropdown-sm [class*="DropdownInput"] {
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+}
+
+/* Ensure dropdown portal menus appear above sticky headers */
+[class*="dropdown-menu"],
+[class*="MenuList"],
+[class*="menuList"] {
+  z-index: 50 !important;
+}
+
+/* Drawer slide-in animation */
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Thin scrollbar for panels */
+.thin-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+/* Firefox */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
 }

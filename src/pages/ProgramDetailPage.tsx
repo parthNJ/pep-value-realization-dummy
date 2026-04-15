@@ -58,16 +58,17 @@ export function ProgramDetailPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader
-        title={`Program — ${program.name}`}
-        subtitle={`${program.portfolio} · ${program.region} · ${program.market}`}
-      />
+      <DashboardHeader />
 
-      <main className="mx-auto max-w-7xl space-y-6 px-6 py-6">
-        <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="gap-1.5 -ml-2">
-          <ArrowLeft className="size-4" />
-          Back to dashboard
-        </Button>
+      <main className="mx-auto max-w-7xl space-y-6 px-4 py-4 sm:px-6 sm:py-6">
+        <div>
+          <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="gap-1.5 -ml-2 mb-2">
+            <ArrowLeft className="size-4" />
+            Back to dashboard
+          </Button>
+          <h1 className="text-lg font-semibold">Program — {program.name}</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">{program.portfolio} · {program.region} · {program.market}</p>
+        </div>
 
         {/* Key metrics */}
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">

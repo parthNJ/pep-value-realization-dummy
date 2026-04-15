@@ -1,5 +1,8 @@
 import { useState, useMemo, useCallback } from "react";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { ContentTabs } from "@/components/dashboard/ContentTabs";
+import type { ContentTab } from "@/components/dashboard/ContentTabs";
+import { PageTitle } from "@/components/dashboard/PageTitle";
 import { GlobalFilters, defaultGlobalFilters } from "@/components/dashboard/GlobalFilters";
 import type { GlobalFilterState } from "@/components/dashboard/GlobalFilters";
 import { ProgramSummaryCards } from "@/components/programs/ProgramSummaryCards";
@@ -9,43 +12,35 @@ import { PortfolioTab } from "@/components/tabs/PortfolioTab";
 import { RegionTab } from "@/components/tabs/RegionTab";
 import { MarketsTab } from "@/components/tabs/MarketsTab";
 import { ProgramsTab } from "@/components/tabs/ProgramsTab";
-import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { programs } from "@/data/programs";
+import { Button } from "@pepsico-ds/ui";
 
-const tabs = ["Overview", "Portfolio", "Region", "Markets", "Programs"] as const;
-type Tab = (typeof tabs)[number];
 
 export function Dashboard() {
-  const [tab, setTab] = useState<Tab>("Overview");
+  const [tab, setTab] = useState<ContentTab>("Overview");
   const [filters, setFilters] = useState<GlobalFilterState>(defaultGlobalFilters);
   const [cardsOpen, setCardsOpen] = useState(true);
 
-  // Filter programs by union logic
   const filteredPrograms = useMemo(() => {
-    const { portfolios: fp, regions: fr, markets: fm } = filters;
-    const hasPf = fp.length > 0;
+    const { regions: fr, markets: fm, portfolios: fp } = filters;
     const hasRg = fr.length > 0;
     const hasMk = fm.length > 0;
-    if (!hasPf && !hasRg && !hasMk) return programs;
+    const hasPf = fp.length > 0;
+    if (!hasRg && !hasMk && !hasPf) return programs;
     const ids = new Set<string>();
     for (const p of programs) {
-      if (hasPf && fp.includes(p.portfolio)) ids.add(p.id);
       if (hasRg && fr.includes(p.region)) ids.add(p.id);
       if (hasMk && fm.includes(p.market)) ids.add(p.id);
+      if (hasPf && fp.includes(p.portfolio)) ids.add(p.id);
     }
     return programs.filter((p) => ids.has(p.id));
   }, [filters]);
 
-  // Derive financial snapshot from filtered programs
   const financialData = useMemo(() => {
-    const progs = filteredPrograms;
-    const totalBenefit = progs.reduce((s, p) => s + p.benefit, 0);
-    const totalTarget = progs.reduce((s, p) => s + p.target, 0);
+    const totalBenefit = filteredPrograms.reduce((s, p) => s + p.benefit, 0);
+    const totalTarget = filteredPrograms.reduce((s, p) => s + p.target, 0);
     const allBenefit = programs.reduce((s, p) => s + p.benefit, 0);
     const allTarget = programs.reduce((s, p) => s + p.target, 0);
-
-    // Scale factor: how much of the total universe is selected
     const scale = allBenefit > 0 ? totalBenefit / allBenefit : 1;
     const tScale = allTarget > 0 ? totalTarget / allTarget : 1;
 
@@ -57,7 +52,6 @@ export function Dashboard() {
       return "red" as const;
     };
 
-    // Base values from screenshot (all programs, both YTD and FY are same)
     const base = [
       { label: "Net Revenue ($MM)", actFcst: 347.2, target: 294.6 },
       { label: "Contribution Margin ($MM)", actFcst: 170.8, target: 139.0 },
@@ -74,26 +68,15 @@ export function Dashboard() {
       });
 
     return [
-      { label: "YTD", metrics: makeMetrics(1) },
-      { label: "FY FCST", metrics: makeMetrics(1) },
+      { label: "YTD", metrics: makeMetrics(0.45) },
+      { label: "FY FCST", metrics: makeMetrics(1.0) },
     ];
   }, [filteredPrograms]);
 
-  const portfolioOptions = [...new Set(programs.map((p) => p.portfolio))].sort();
   const regionOptions = [...new Set(programs.map((p) => p.region))].sort();
   const marketOptions = [...new Set(programs.map((p) => p.market))].sort();
+  const portfolioOptions = [...new Set(programs.map((p) => p.portfolio))].sort();
 
-  const filterSummary = [
-    filters.portfolios.length > 0 ? `${filters.portfolios.length} portfolio${filters.portfolios.length > 1 ? "s" : ""}` : null,
-    filters.regions.length > 0 ? `${filters.regions.length} region${filters.regions.length > 1 ? "s" : ""}` : null,
-    filters.markets.length > 0 ? `${filters.markets.length} market${filters.markets.length > 1 ? "s" : ""}` : null,
-  ].filter(Boolean);
-
-  const subtitle = filterSummary.length > 0
-    ? `${filterSummary.join(" · ")} · FY${filters.year}`
-    : `All data · FY${filters.year}`;
-
-  // Derive portfolio-level data from filtered programs
   const deriveAgg = (key: "portfolio" | "region" | "market") => {
     const map = new Map<string, { benefit: number; target: number; bw: number }>();
     for (const p of filteredPrograms) {
@@ -117,14 +100,13 @@ export function Dashboard() {
   const filteredRegions = useMemo(() => deriveAgg("region"), [filteredPrograms]);
   const filteredMarkets = useMemo(() => deriveAgg("market"), [filteredPrograms]);
 
-  // When a row is clicked in the Performance Overview table, switch to the appropriate tab and set the filter
   const handleRowClick = useCallback((view: string, name: string) => {
     if (view === "Portfolio") {
       setFilters((f) => ({ ...f, portfolios: [name] }));
       setTab("Portfolio");
     } else if (view === "Region") {
       setFilters((f) => ({ ...f, regions: [name] }));
-      setTab("Region");
+      setTab("Regions");
     } else if (view === "Market") {
       setFilters((f) => ({ ...f, markets: [name] }));
       setTab("Markets");
@@ -132,60 +114,43 @@ export function Dashboard() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const hasActiveFilters = filters.portfolios.length > 0 || filters.regions.length > 0 || filters.markets.length > 0;
-
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader title="S&T Enabled Financial Overview (Dummy Data)" subtitle={subtitle} />
+      <DashboardHeader />
+      <ContentTabs active={tab} onChange={setTab} />
 
-      {/* Sticky filter sub-navbar */}
-      <div className={cn(
-        "sticky top-0 z-20 border-b transition-colors",
-        hasActiveFilters ? "bg-blue-50/80 backdrop-blur-sm" : "bg-white/80 backdrop-blur-sm",
-      )}>
-        <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6">
+      {/* Page title + filters */}
+      <div style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 20,
+        borderBottom: "1px solid #e0e0e0",
+        background: "#fff",
+        overflow: "visible",
+      }}>
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          <PageTitle title="S&T Enabled Financial Overview" lastUpdated="12:05am 11/10/25" />
           <GlobalFilters
             filters={filters}
             onChange={setFilters}
-            portfolioOptions={portfolioOptions}
             regionOptions={regionOptions}
             marketOptions={marketOptions}
+            portfolioOptions={portfolioOptions}
           />
         </div>
       </div>
 
       <main className="mx-auto max-w-7xl space-y-5 px-4 py-4 sm:px-6 sm:py-6">
-        {/* Tabs — horizontally scrollable on mobile */}
-        <div className="border-b">
-          <div className="-mx-4 flex gap-1 overflow-x-auto px-4 sm:mx-0 sm:px-0">
-            {tabs.map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={cn(
-                  "relative shrink-0 px-4 pb-2.5 pt-1 text-sm font-medium transition-colors whitespace-nowrap",
-                  tab === t
-                    ? "text-foreground after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:rounded-full after:bg-foreground"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Collapsible summary cards — hidden on Overview */}
         {tab !== "Overview" && (
           <div>
-            <button
+            <Button
+              text={`${cardsOpen ? "Hide summary" : "Show summary"} · ${filteredPrograms.length} programs`}
+              variant="tertiary"
+              size="small"
+              iconLeading={cardsOpen ? "expand_less" : "expand_more"}
               onClick={() => setCardsOpen(!cardsOpen)}
-              className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {cardsOpen ? <ChevronUp className="size-3.5" /> : <ChevronDown className="size-3.5" />}
-              {cardsOpen ? "Hide summary" : "Show summary"}
-              <span className="text-muted-foreground">· {filteredPrograms.length} programs</span>
-            </button>
+            />
             {cardsOpen && (
               <div className="mt-3">
                 <ProgramSummaryCards programs={filteredPrograms} />
@@ -205,8 +170,8 @@ export function Dashboard() {
             onRowClick={handleRowClick}
           />
         )}
-        {tab === "Portfolio" && <PortfolioTab portfolios={filteredPortfolios} programs={filteredPrograms} />}
-        {tab === "Region" && <RegionTab programs={filteredPrograms} />}
+        {tab === "Portfolio" && <PortfolioTab portfolios={filteredPortfolios} programs={filteredPrograms} allPrograms={programs} />}
+        {tab === "Regions" && <RegionTab programs={filteredPrograms} />}
         {tab === "Markets" && <MarketsTab programs={filteredPrograms} />}
         {tab === "Programs" && <ProgramsTab programs={filteredPrograms} />}
       </main>

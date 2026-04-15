@@ -1,52 +1,58 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { Settings, LogOut, User } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "@/assets/pepsico-resized.svg";
 
-interface DashboardHeaderProps {
-  title: string;
-  subtitle?: string;
-}
+const topTabs = [
+  { label: "Overview", path: "/" },
+  { label: "S&T Enabled Benefits", path: "/benefits" },
+  { label: "GCC Business Case", path: "/gcc" },
+  { label: "S&T Base Productivity", path: "/productivity" },
+] as const;
 
-export function DashboardHeader({ title, subtitle }: DashboardHeaderProps) {
+export function DashboardHeader() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const currentPath = location.pathname;
+  const isActive = (path: string) =>
+    path === "/" ? currentPath === "/" || currentPath === "" : currentPath.startsWith(path);
+
   return (
-    <header className="bg-[#1e293b]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="flex items-center justify-between pt-3 pb-2 sm:pt-4 sm:pb-3">
-          <img src={logo} alt="Logo" className="h-8 w-auto brightness-0 invert sm:h-10" />
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex cursor-pointer items-center gap-2 rounded-full bg-white/10 py-1 pl-1 pr-3 text-sm font-medium text-white outline-none transition-colors hover:bg-white/15 focus-visible:ring-2 focus-visible:ring-white/40">
-              <Avatar size="sm">
-                <AvatarFallback className="bg-white/20 text-xs text-white">U</AvatarFallback>
-              </Avatar>
-              <span className="hidden sm:inline">User</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" sideOffset={8}>
-              <DropdownMenuItem onClick={() => console.log("Settings")}>
-                <Settings className="mr-2 size-4" /> Settings
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => console.log("Access")}>
-                <User className="mr-2 size-4" /> Access
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => console.log("Logout")}>
-                <LogOut className="mr-2 size-4" /> Log out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div className="pb-4 sm:pb-5">
-          <h1 className="text-lg font-semibold text-white sm:text-xl">{title}</h1>
-          {subtitle && (
-            <p className="mt-0.5 text-xs text-slate-400 sm:text-sm">{subtitle}</p>
-          )}
-        </div>
+    <header
+      style={{
+        background: "#3855B3",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0 24px",
+        height: "48px",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+        <img
+          src={logo}
+          alt="PepsiCo"
+          style={{ height: "28px", width: "auto", filter: "brightness(0) invert(1)" }}
+        />
+        <nav style={{ display: "flex", gap: "4px" }}>
+          {topTabs.map((tab) => (
+            <button
+              key={tab.label}
+              onClick={() => navigate(tab.path)}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "6px 12px",
+                fontSize: "14px",
+                fontWeight: isActive(tab.path) ? 700 : 400,
+                color: isActive(tab.path) ? "#FFFFFF" : "rgba(255,255,255,0.7)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
       </div>
     </header>
   );

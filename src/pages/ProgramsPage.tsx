@@ -20,17 +20,6 @@ import { programs } from "@/data/programs";
 const contentTabs = ["Overview", "Breakdown", "All Programs"] as const;
 type ContentTab = (typeof contentTabs)[number];
 
-function buildHeaderTitle(filters: ProgramFilterState): string {
-  const parts = [
-    ...filters.portfolios,
-    ...filters.regions,
-    ...filters.markets,
-  ];
-  if (parts.length === 0) return "Programs Overview";
-  if (parts.length <= 2) return `${parts.join(" · ")} — Programs`;
-  return `${parts.length} Filters Active — Programs`;
-}
-
 function initFiltersFromParams(params: URLSearchParams): ProgramFilterState {
   const portfolio = params.get("portfolio");
   const region = params.get("region");
@@ -78,10 +67,7 @@ export function ProgramsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader
-        title={buildHeaderTitle(filters)}
-        subtitle={`${filtered.length} programs · FY2024 · Total NOPBT Benefit KPI`}
-      />
+      <DashboardHeader />
 
       <main className="mx-auto max-w-7xl space-y-6 px-6 py-6">
         <ProgramFilters

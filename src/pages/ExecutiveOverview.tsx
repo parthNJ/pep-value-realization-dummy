@@ -30,10 +30,7 @@ export function ExecutiveOverview() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader
-        title="Welcome, User 👋"
-        subtitle="Here's your S&T financial overview for today"
-      />
+      <DashboardHeader />
 
       <main className="mx-auto max-w-7xl space-y-8 px-6 py-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

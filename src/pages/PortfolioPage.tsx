@@ -9,10 +9,7 @@ import { portfolios } from "@/data/mockData";
 export function PortfolioPage() {
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader
-        title="Portfolio Performance Dashboard"
-        subtitle="Executive Review · FY2024 · Total NOPBT Benefit KPI"
-      />
+      <DashboardHeader />
 
       <main className="mx-auto max-w-7xl space-y-6 px-6 py-6">
         <SummaryCards portfolios={portfolios} />
